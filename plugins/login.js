@@ -1,17 +1,17 @@
-var uuid = require('uuid');
+const uuid = require('uuid');
 
-module.exports = function (options) {
-    const { redisClient } = options;
+module.exports = function loginModule(options) {
+  const { redisClient } = options;
 
-    this.add({ role: 'auth', cmd: 'login' }, (msg, done) => {
-        const { login, password } = msg;
+  this.add({ role: 'auth', cmd: 'login' }, (msg, done) => {
+    const { login } = msg;
 
-        /*
-         here we should get user from users service
-         */
+    /*
+     here we should get user from users service
+     */
 
-        const token = uuid.v4();
+    const token = uuid.v4();
 
-        redisClient.set(token, login, () => done(null, { token }));
-    });
+    redisClient.set(token, login, () => done(null, { token }));
+  });
 };
